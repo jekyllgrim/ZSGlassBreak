@@ -20,7 +20,7 @@ class JGP_GlassBreak play
 		}
 	}
 
-	static Line BreakGlassLine(Line l, name newTex = "", int numDebris = 20, int speed = 5, sound snd = "GlassShatter", class<Actor> debristype = null)
+	static Line BreakGlassLine(Line l, string newTex = "", int numDebris = 20, int speed = 5, sound snd = "GlassShatter", string debristype = "")
 	{
 		// This only works on double-sided linedefs:
 		Side s1 = l.sideDef[Line.front];
