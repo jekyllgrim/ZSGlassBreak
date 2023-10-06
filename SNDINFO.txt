@@ -1,0 +1,4 @@
+GlassShatter SHARDS1B
+$pitchset GlassShatter 0.8 1.05
+
+misc/breakglass SHARDS1B
