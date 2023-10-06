@@ -57,20 +57,27 @@ class JGP_GlassBreak play
 			double lineAngle = atan2(l.delta.y, l.delta.x) + 90;
 			vector2 lineDelta = l.delta;
 			vector2 midPos = (l.v1.p + l.v2.p) * 0.5;
-			double zBot = sec.floorplane.ZAtPoint(midpos);
+
+			double floorBot = sec.floorplane.ZAtPoint(midpos);
 			double ceilingTop = sec.ceilingplane.ZAtPoint(midpos);
-			double textureTop = (size.y + s1.GetTextureYOffset(Side.mid)) * s1.GetTextureXScale(Side.mid);
+			double zOfs = s1.GetTextureYOffset(Side.mid);
+			double zScale = s1.GetTextureYScale(Side.mid);
+			double textureTop = (size.y) / zscale;
+			double textureBot = zOfs / zScale;
 			double zTop;
+			double zBot;
 			// Extend to sector ceiling if this is
 			// a wrapped texture:
 			if (s1.flags & Side.WALLF_WRAP_MIDTEX)
 			{
 				zTop = ceilingTop;
+				zBot = floorBot;
 			}
 			// Otherwise do not go above ceiling
 			// or the height of the texture:
 			else
 			{
+				zBot = max(floorBot, floorBot + textureBot);
 				zTop = min(ceilingTop, zBot + textureTop);
 			}
 
@@ -99,7 +106,7 @@ class JGP_GlassBreak play
 				for (int i = 0; i < numDebris; i++)
 				{
 					// Offset alongside the line:
-					vector3 junk_pos = (l.v1.p + lineDelta * frandom[gbj](0.1, 0.9), zBot + (zTop - zBot) * frandom[gbj](0.2, 0.9));
+					vector3 junk_pos = (l.v1.p + lineDelta * frandom[gbj](0.1, 0.9), zBot + (zTop - zBot) * frandom[gbj](0.1, 0.9));
 					vector3 junk_vel;
 					if (speed > 0)
 					{
