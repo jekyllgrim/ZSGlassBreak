@@ -1,3 +1,6 @@
 ZSGlassBreak/testweapon.zs
 sounds/*
-SNDINFO.txt
+maps/*
+textures/*
+MAPINFO.*
+SNDINFO.*

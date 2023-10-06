@@ -44,6 +44,11 @@ class JGP_GlassBreak play
 		l.flags &= ~Line.ML_BLOCKHITSCAN;
 		l.flags &= ~Line.ML_3DMIDTEX_IMPASS;
 
+		l.activation &= ~SPAC_Impact;
+		l.activation &= ~SPAC_PCross;
+		l.activation &= ~SPAC_Push;
+		l.activation &= ~SPAC_Damage;
+
 		// Only works on textured linedefs:
 		TextureID tex = s1.GetTexture(Side.mid);
 		if (tex.isValid())
