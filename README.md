@@ -35,10 +35,28 @@ Use [ScriptCall](https://zdoom.org/wiki/ScriptCall) to call `JGP_GlassBreak.Brea
 ```c
 script "ZSGlassBreak" (void)
 {
-	ScriptCall("JGP_GlassBreak", "BreakGlassTag", 5);
+    ScriptCall("JGP_GlassBreak", "BreakGlassTag", 1, "W_273", 50, 5, "misc/breakglass", "Blood");
 }
 ```
 
-This script will perform the glass break function on all linedefs with the tag 5. You can apply this script to a switch, or to the lines themselves with "Projectile impact" activation method, or anything else. You can also apply more arguments to the script to make it more flexible.
+This script will perform the glass break function on all linedefs with the tag 1. The line's texture will change to W_273, it'll spawn 50 debris with horizontal speed of up to 5, it'll play the sound "misc/breakglass", and it'll spawn Blood actors for debris.
 
-This version of the script supports all the same arguments as `BreakGlassLine()`, except the first argument is a line tag instead of a Line pointer (since ACS, obviously, doesn't have those).
+You can apply this script to a switch, or to the lines themselves with "Projectile impact" activation method, or anything else. You can also apply more arguments to the script to make it more flexible.
+
+Arguments for `ScriptCall()`
+
+1. `"JGP_GlassBreak"` — the name of the class containing the function
+
+2. `"BreakGlassTag"` — the name of the function
+
+3. int — the linedef tag
+
+4. string — the name of the new texture to apply to the linedef after breaking. It'll be applied to both sides. Default: "" (simply removes the texture).
+
+5. int — the number of glass debris to spawn. Default: 20.
+
+6. int — the speed at which the debris will fly from the line. Upon spawning the horizontal speed will be set to a value between x0.5 and x1.0 of this number, and the vertical speed will be x0.5 of the horizontal speed. Default: 5.
+
+7. string — the name of the sound to play on the line when the glass breaks. Default: "GlassShatter" (the default Hexen glass break sound).
+
+8. string — the name of the Actor class to use for debris. If left unspecified (or the actor with that name doesn't exist), the function will spawn particles that have the same texture as the line (but small in size).
