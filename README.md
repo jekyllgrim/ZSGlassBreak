@@ -4,6 +4,8 @@ This small library recreates the [GlassBreak](https://zdoom.org/wiki/GlassBreak)
 
 ## How to use
 
+*Note:* The library comes with an example map (the map can be reached with `map GlassExample`) with an ACS script, sounds and stained glass textures from Hexen. These are purely for demonstration and are NOT needed for the library to function. The library itself is wholly contained in `ZSGlassBreak/glassbreak.zs`.
+
 ### In Zscript
 
 Call `JGP_GlassBreak.BreakGlassLine()`:
