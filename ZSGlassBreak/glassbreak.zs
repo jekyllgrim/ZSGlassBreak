@@ -32,6 +32,18 @@ class JGP_GlassBreak play
 		if (!sec) 
 			return null;
 
+		l.flags &= ~Line.ML_BLOCKING;
+		l.flags &= ~Line.ML_BLOCKMONSTERS;
+		l.flags &= ~Line.ML_SOUNDBLOCK;
+		l.flags &= ~Line.ML_SOUNDBLOCK;
+		l.flags &= ~Line.ML_BLOCK_PLAYERS;
+		l.flags &= ~Line.ML_BLOCKEVERYTHING;
+		l.flags &= ~Line.ML_BLOCKPROJECTILE;
+		l.flags &= ~Line.ML_BLOCKUSE;
+		l.flags &= ~Line.ML_BLOCKSIGHT;
+		l.flags &= ~Line.ML_BLOCKHITSCAN;
+		l.flags &= ~Line.ML_3DMIDTEX_IMPASS;
+
 		// Only works on textured linedefs:
 		TextureID tex = s1.GetTexture(Side.mid);
 		if (tex.isValid())
@@ -74,7 +86,7 @@ class JGP_GlassBreak play
 					junk.color1 = "";
 					junk.flags = SPF_ROLL|SPF_REPLACE;
 					junk.style = STYLE_Normal;
-					junk.startalpha = 1.0;
+					junk.startalpha = 0.5;
 					junk.fadestep = -1;
 					junk.accel.z = -Level.Gravity / 800;
 					junk.texture = s1.GetTexture(Side.mid);
@@ -82,7 +94,7 @@ class JGP_GlassBreak play
 				for (int i = 0; i < numDebris; i++)
 				{
 					// Offset alongside the line:
-					vector3 junk_pos = (l.v1.p + lineDelta * frandom[gbj](0.1, 0.9), frandom[gbj](zBot, zTop));
+					vector3 junk_pos = (l.v1.p + lineDelta * frandom[gbj](0.1, 0.9), zBot + (zTop - zBot) * frandom[gbj](0.2, 0.9));
 					vector3 junk_vel;
 					if (speed > 0)
 					{
@@ -99,7 +111,7 @@ class JGP_GlassBreak play
 					{
 						junk.pos = junk_pos;
 						junk.vel = junk_vel;
-						junk.lifetime = random[gbj](30, 40);
+						junk.lifetime = random[gbj](30, 50);
 						junk.size = frandom[gbj](3, 10);
 						junk.rollvel = frandom[gbj](-15, 15);
 						Level.SpawnParticle(junk);
@@ -111,45 +123,6 @@ class JGP_GlassBreak play
 			s2.SetTexture(Side.mid, TexMan.CheckForTexture(newTex));
 		}
 
-		l.flags &= ~Line.ML_BLOCKING;
-		l.flags &= ~Line.ML_BLOCKMONSTERS;
-		l.flags &= ~Line.ML_SOUNDBLOCK;
-		l.flags &= ~Line.ML_SOUNDBLOCK;
-		l.flags &= ~Line.ML_BLOCK_PLAYERS;
-		l.flags &= ~Line.ML_BLOCKEVERYTHING;
-		l.flags &= ~Line.ML_BLOCKPROJECTILE;
-		l.flags &= ~Line.ML_BLOCKUSE;
-		l.flags &= ~Line.ML_BLOCKSIGHT;
-		l.flags &= ~Line.ML_BLOCKHITSCAN;
-		l.flags &= ~Line.ML_3DMIDTEX_IMPASS;
 		return l;
-	}
-}
-
-// Test weapon
-/*
-class GlassBreaker : Pistol
-{
-	Default
-	{
-		Weapon.slotnumber 2;
-	}
-	States
-	{
-	Fire:
-		PISG A 4;
-		PISG B 6 
-		{
-			A_FirePistol();
-			FLineTraceData lt;
-			LineTrace(angle, PLAYERMISSILERANGE, pitch, offsetz: height * 0.5 - floorclip + player.mo.AttackZOffset*player.crouchFactor, data: lt);
-			if (lt.HitType == TRACE_HitWall && lt.HitLine)
-			{
-				JGP_GlassBreak.BreakGlassLine(lt.HitLine, snd:"misc/chat", debristype:"Blood");
-			}
-		}
-		PISG C 4;
-		PISG B 5 A_ReFire;
-		Goto Ready;
 	}
 }
